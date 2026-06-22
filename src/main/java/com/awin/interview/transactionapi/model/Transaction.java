@@ -32,12 +32,16 @@ public class Transaction {
     private List<TransactionPart> parts = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt; // New field locked against updates
+    private LocalDateTime createdAt;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PreUpdate
+    public void preUpdatedAt(){
+        this.updatedAt = LocalDateTime.now();
     }
+
 
     public Transaction() {
     }
@@ -46,6 +50,9 @@ public class Transaction {
         this.status = TransactionStatus.PENDING;
         this.saleAmount = saleAmount;
         this.commissionAmount = commissionAmount;
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 
     public UUID getId() {

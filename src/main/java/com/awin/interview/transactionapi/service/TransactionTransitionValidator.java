@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
-public class TransactionTransitionPolicy {
+public class TransactionTransitionValidator {
     private static final Map<TransactionStatus, Set<TransactionStatus>> ALLOWED_TRANSITIONS = new EnumMap<>(TransactionStatus.class);
     static {
         ALLOWED_TRANSITIONS.put(TransactionStatus.PENDING, EnumSet.of(TransactionStatus.APPROVED, TransactionStatus.DECLINED));
