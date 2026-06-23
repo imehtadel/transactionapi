@@ -1,0 +1,8 @@
+What you used AI for
+I used Perplexity as a helper for design and boilerplate to speed up the initial scaffolding, not as the final authority.
+
+Where it helped
+It helped me explore options like optimistic locking, the outbox pattern, and their related trade‑offs. It supported my decision‑making by clarifying the requirements and implications of different approaches.
+
+What you changed or improved
+I added more fields at the entity level with future scalability in mind. I followed best practices such as using a custom validator instead of performing validation in the service layer. I implemented custom exceptions to return appropriate HTTP statuses and error messages. I used a transition map to validate transaction status changes instead of chaining if/else conditions. I also improved the code by following SOLID principles, making classes open for extension and closed for modification.
