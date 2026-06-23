@@ -1,6 +1,5 @@
 package com.awin.interview.transactionapi.controller;
 
-import com.awin.interview.transactionapi.exception.InvalidRequestException;
 import com.awin.interview.transactionapi.exception.TransactionNotFoundException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
@@ -36,13 +35,7 @@ public class GlobalExceptionHandler {
         errorBody.put("errors", errors);
         return ResponseEntity.badRequest().body(errorBody);
     }
-
-    @ExceptionHandler(InvalidRequestException.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidRequestException(InvalidRequestException ex) {
-        Map<String, Object> errorBody = createErrorBodyMap(HttpStatus.BAD_REQUEST, ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorBody);
-    }
+    
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalStateException(IllegalStateException ex) {
         Map<String, Object> errorBody = createErrorBodyMap(HttpStatus.BAD_REQUEST, ex.getMessage());

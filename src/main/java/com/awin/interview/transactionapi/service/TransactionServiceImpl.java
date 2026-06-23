@@ -1,6 +1,5 @@
 package com.awin.interview.transactionapi.service;
 
-import com.awin.interview.transactionapi.dto.event.TransactionApprovedEvent;
 import com.awin.interview.transactionapi.dto.request.CreateTransactionPartRequest;
 import com.awin.interview.transactionapi.dto.request.CreateTransactionRequest;
 import com.awin.interview.transactionapi.dto.response.TransactionResponse;
@@ -13,7 +12,7 @@ import com.awin.interview.transactionapi.repository.OutboxEventRepository;
 import com.awin.interview.transactionapi.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
+
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -26,14 +25,13 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final OutboxEventRepository outboxEventRepository;
     private final TransactionTransitionValidator transactionTransitionValidator;
-    private final ObjectMapper objectMapper;
+
 
     public TransactionServiceImpl(TransactionRepository transactionRepository, OutboxEventRepository outboxEventRepository,
-                                  TransactionTransitionValidator transactionTransitionValidator, ObjectMapper objectMapper) {
+                                  TransactionTransitionValidator transactionTransitionValidator) {
         this.transactionRepository = transactionRepository;
         this.outboxEventRepository = outboxEventRepository;
         this.transactionTransitionValidator = transactionTransitionValidator;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -73,13 +71,14 @@ public class TransactionServiceImpl implements TransactionService {
         transactionTransitionValidator.validateTransition(transaction.getStatus(), TransactionStatus.DECLINED);
         transaction.updateStatus(TransactionStatus.DECLINED);
         OutboxEvent outboxEvent = OutboxEvent.pending("Transaction", transaction.getId().toString(),
-                TRANSACTION_DECLINED, createOutboxEventPayload(transaction));
+                TRANSACTION_DECLINED, String.join(", ", transaction.getId().toString(), transaction.getStatus().name(), LocalDateTime.now().toString()));
         outboxEventRepository.save(outboxEvent);
         return new TransactionResponse(transaction.getId(), transaction.getStatus());
     }
 
     private String createOutboxEventPayload(Transaction transaction){
-        return objectMapper.writeValueAsString(new TransactionApprovedEvent(transaction.getId(),
-                transaction.getStatus().name(), LocalDateTime.now()));
+        return String.join(", ", transaction.getId().toString(),
+                transaction.getStatus().name(),
+                LocalDateTime.now().toString());
     }
 }

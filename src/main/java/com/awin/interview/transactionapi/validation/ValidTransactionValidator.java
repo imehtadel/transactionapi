@@ -13,6 +13,9 @@ public class ValidTransactionValidator implements ConstraintValidator<ValidTrans
         if(request == null){
             return true;
         }
+        if(request.parts()== null || request.parts().isEmpty()){
+            return false;
+        }
 
         BigDecimal transactionPartsSalesTotal = request.parts().stream()
                 .filter(p -> p.saleAmount()!=null)
