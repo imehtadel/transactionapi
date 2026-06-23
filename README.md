@@ -40,5 +40,5 @@ saleAmount & commissionAmount must not be null and must be >= 0.00
 transaction parts must not be empty
 Sum of part sale amounts must equal the request saleAmount and sum of part commission amounts must equal the request commissionAmount.
 
-3) GET /api/v1/transactions/{{id}}/approve: update to DB and Outbox pattern used to ensure database changes and event creation happen atomically without failure.
-4) GET /api/v1/transactions/{{id}}/decline: update to DB and Outbox pattern used to ensure database changes and event creation happen atomically without failure.
+3) POST /api/v1/transactions/{{id}}/approve: update to DB and Outbox pattern used to ensure database changes and event creation happen atomically without failure.
+4) POST /api/v1/transactions/{{id}}/decline: update to DB and Outbox pattern used to ensure database changes and event creation happen atomically without failure.
