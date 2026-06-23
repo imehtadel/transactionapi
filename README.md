@@ -10,6 +10,13 @@ Transactional outbox pattern for reliable event publishing
 Scheduled outbox publisher
 
 Tech Stack :Java 17, Spring Boot, Spring Web, Spring Validation, JPA, H2, Kafka support
+## Installation
+git clone https://github.com/imehtadel/transactionapi
+## Running the Application
+mvn spring-boot:run
+
+H2 DB can be accessed once server is up at [/h2-console](http://localhost:8080/h2-console)
+Shared Postman script for testing.
 
 APIs:
 1) POST /api/v1/transactions
@@ -35,9 +42,3 @@ Sum of part sale amounts must equal the request saleAmount and sum of part commi
 
 3) GET /api/v1/transactions/{{id}}/approve: update to DB and Outbox pattern used to ensure database changes and event creation happen atomically without failure.
 4) GET /api/v1/transactions/{{id}}/decline: update to DB and Outbox pattern used to ensure database changes and event creation happen atomically without failure.
-
-Shared Postman script for testing.
-To run the application:
-mvn spring-boot:run
-
-H2 DB can be accessed once server is up at [/h2-console](http://localhost:8080/h2-console)
